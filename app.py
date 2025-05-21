@@ -8,7 +8,7 @@ model = joblib.load("random_forest_model.pkl")
 st.title("Breast Cancer Prediction App")
 
 # Input method selection
-input_method = st.radio("Select input method", ["Manual Input", "Upload CSV"])
+input_method = st.radio("Select input method", ["Manual Input"])
 
 # ========== Manual Input ==========
 if input_method == "Manual Input":
