@@ -60,10 +60,3 @@ if input_method == "Manual Input":
         prediction = model.predict(features)
         st.success(f"Prediction: {'Malignant' if prediction[0] == 1 else 'Benign'}")
 
-# ========== CSV Upload ==========
-elif input_method == "/content/drive/MyDrive/dataset/sample_input.csv":
-    file = st.file_uploader("/content/drive/MyDrive/dataset/sample_input.csv", type=["csv"])
-    if file is not None:
-        data = pd.read_csv(file)
-        prediction = model.predict(data)
-        st.write("Predictions:", prediction)
