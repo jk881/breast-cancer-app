@@ -4,7 +4,6 @@ import joblib
 
 # Load the trained model and scaler
 model = joblib.load("Logistic_Regression_model.pkl")
-scaler = joblib.load("scaler.pkl")
 
 st.title("Breast Cancer Prediction App")
 
