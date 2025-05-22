@@ -25,6 +25,5 @@ for name in feature_names:
     features.append(value)
 
 if st.button("Predict"):
-    scaled_features = scaler.transform([features])
     prediction = model.predict(scaled_features)
     st.success(f"Prediction: {'Malignant' if prediction[0] == 1 else 'Benign'}")
