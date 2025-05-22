@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load the trained model and scaler
-model = joblib.load("logistic_regression_model.pkl")  # Use your best model here
+model = joblib.load("Logistic_Regression_model.pkl")  # Use your best model here
 scaler = joblib.load("scaler.pkl")  # Ensure this scaler was saved during training
 
 st.title("Breast Cancer Prediction App")
