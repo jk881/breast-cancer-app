@@ -3,7 +3,11 @@ import pandas as pd
 import joblib
 
 # Load the trained model and scaler
-model = joblib.load("Logistic_Regression_model.pkl")  # Use your best model here
+try:
+    model = joblib.load("logistic_regression_model.pkl")
+except FileNotFoundError:
+    st.error("Model file not found. Please ensure 'logistic_regression_model.pkl' is uploaded.")
+
 scaler = joblib.load("scaler.pkl")  # Ensure this scaler was saved during training
 
 st.title("Breast Cancer Prediction App")
