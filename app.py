@@ -2,13 +2,14 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load the trained model
-model = joblib.load("Logestic_Regression_model.plk")
+# Load the trained model and scaler
+model = joblib.load("logistic_regression_model.pkl")  # Use your best model here
+scaler = joblib.load("scaler.pkl")  # Ensure this scaler was saved during training
 
 st.title("Breast Cancer Prediction App")
 
 # Input method selection
-input_method = st.radio("Select input method", ["Manual Input"])
+input_method = st.radio("Select input method", ["Manual Input", "Upload CSV"])
 
 # ========== Manual Input ==========
 if input_method == "Manual Input":
@@ -57,6 +58,34 @@ if input_method == "Manual Input":
     ]]
 
     if st.button("Predict"):
-        prediction = model.predict(features)
-        st.success(f"Prediction: {'Malignant' if prediction[0] == 1 else 'Benign'}")
+        scaled_features = scaler.transform(features)
+        prediction = model.predict(scaled_features)
+        st.success(f"Prediction: {'Malignant' if prediction[0] == 0 else 'Benign'}")
 
+# ========== CSV Upload ==========
+elif input_method == "Upload CSV":
+    st.subheader("Upload CSV File for Bulk Prediction")
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+    if uploaded_file is not None:
+        try:
+            data = pd.read_csv(uploaded_file)
+            st.write("Uploaded Data Preview:")
+            st.dataframe(data.head())
+
+            # Scale data
+            scaled_data = scaler.transform(data)
+
+            # Predict
+            predictions = model.predict(scaled_data)
+            data['Prediction'] = ['Malignant' if p == 0 else 'Benign' for p in predictions]
+
+            st.write("Prediction Results:")
+            st.dataframe(data)
+
+            # Download option
+            csv = data.to_csv(index=False).encode('utf-8')
+            st.download_button("Download Results as CSV", csv, "predictions.csv", "text/csv")
+
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
